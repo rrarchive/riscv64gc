@@ -20,11 +20,9 @@
     <h1>riscv64gc Emulator</h1>
     <script>
         loadTypeScript('./riscv64gc.ts');
-        loadTypeScript('./mem.ts');
-        loadTypeScript('./bus.ts');
+        loadTypeScript('./memory.ts');
         document.addEventListener('DOMContentLoaded', (event) => {
-            const memory = new mem(1024 * 1024 * 512); // 512MB
-            const cpu = new riscv64gc(memory);
+            const cpu = new riscv64gc(new memory(1024 * 1024 * 512));
         });
     </script>
 </body>

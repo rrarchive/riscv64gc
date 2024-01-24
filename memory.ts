@@ -1,4 +1,4 @@
-export class mem {
+export class memory {
   private mem: number[];
 
   constructor(size: number = 1024 * 1024 * 512) {

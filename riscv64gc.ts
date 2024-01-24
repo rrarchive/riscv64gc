@@ -1,12 +1,12 @@
-import { mem } from "./mem";
+import { memory } from "./memory";
 
 class riscv64gc {
   private registers: number[];
-  private m: mem;
+  private mem: memory;
 
-  constructor(m: mem) {
+  constructor(m: memory) {
     this.registers = new Array<number>(32).fill(0);
-    this.m = m;
+    this.mem = m;
   }
 
   setRegister(index: number, value: number | number): void {
@@ -209,7 +209,7 @@ class riscv64gc {
           imm = operands[3];
           switch (funct3) {
             case 0x0: // lb
-              this.registers[rd] = this.m.read(this.registers[rs1] + imm);
+              this.registers[rd] = this.mem.read(this.registers[rs1] + imm);
               break;
             case 0x1: // lh
               break;
