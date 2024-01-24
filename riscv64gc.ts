@@ -29,9 +29,9 @@ export class riscv64gc {
     let operands: number[] = [];
 
     let rd: number;
-    let funct3: number;
     let rs1: number;
     let rs2: number;
+    let funct3: number;
     let funct7: number;
     let imm: number;
     let imm1: number;
