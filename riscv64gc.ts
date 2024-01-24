@@ -134,18 +134,6 @@ export class riscv64gc {
             case 0x7: // and
               this.registers[rd] = this.registers[rs1] & this.registers[rs2];
               break;
-            case 0x18: // mul
-              this.registers[rd] = this.registers[rs1] * this.registers[rs2];
-              break;
-            case 0x19: // mulh
-              this.registers[rd] = this.registers[rs1] * this.registers[rs2];
-              break;
-            case 0x1a: // mulhsu
-              this.registers[rd] = this.registers[rs1] * this.registers[rs2];
-              break;
-            case 0x1b: //
-              this.registers[rd] = this.registers[rs1] * this.registers[rs2];
-              break;
             case 0x20: // sub
               this.registers[rd] = this.registers[rs1] - this.registers[rs2];
               break;
@@ -182,18 +170,6 @@ export class riscv64gc {
               break;
             case 0x7: // andi
               this.registers[rd] = this.registers[rs1] & imm;
-              break;
-            case 0x18: // muli
-              this.registers[rd] = this.registers[rs1] * imm;
-              break;
-            case 0x19: // mulhi
-              this.registers[rd] = this.registers[rs1] * imm;
-              break;
-            case 0x1a: // mulhsui
-              this.registers[rd] = this.registers[rs1] * imm;
-              break;
-            case 0x1b: // mulhu
-              this.registers[rd] = this.registers[rs1] * imm;
               break;
             case 0x20: // subi
               this.registers[rd] = this.registers[rs1] - imm;

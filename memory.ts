@@ -10,7 +10,6 @@ export class memory {
   }
 
   writeByte(address: number, value: number): void {
-    this.checkValue(value);
     this.mem[address] = value;
   }
 
@@ -19,7 +18,6 @@ export class memory {
   }
 
   writeHalfWord(address: number, value: number): void {
-    this.checkValue(value);
     this.mem[address] = value & 0xff;
     this.mem[address + 1] = (value & 0xff00) >> 8;
   }
@@ -34,7 +32,6 @@ export class memory {
   }
 
   writeWord(address: number, value: number): void {
-    this.checkValue(value);
     this.mem[address] = value & 0xff;
     this.mem[address + 1] = (value & 0xff00) >> 8;
     this.mem[address + 2] = (value & 0xff0000) >> 16;
@@ -47,9 +44,5 @@ export class memory {
 
   readUnsignedHalfWord(address: number): number {
     return (this.mem[address] | (this.mem[address + 1] << 8)) >>> 0;
-  }
-
-  private checkValue(value: number): void {
-    if (value < 0 || value > 0xff) throw new Error("Invalid value");
   }
 }
