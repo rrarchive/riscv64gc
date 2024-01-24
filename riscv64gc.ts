@@ -1,15 +1,19 @@
+import { mem } from "./mem";
+
 class riscv64gc {
-  private registers: bigint[];
+  private registers: number[];
+  private m: mem;
 
-  constructor() {
-    this.registers = new Array<bigint>(32).fill(BigInt(0));
+  constructor(m: mem) {
+    this.registers = new Array<number>(32).fill(0);
+    this.m = m;
   }
 
-  setRegister(index: number, value: bigint | number): void {
-    if (index !== 0) this.registers[index] = BigInt(value);
+  setRegister(index: number, value: number | number): void {
+    if (index !== 0) this.registers[index] = value;
   }
 
-  getRegister(index: number): bigint {
+  getRegister(index: number): number {
     return this.registers[index];
   }
 
@@ -112,15 +116,11 @@ class riscv64gc {
               break;
             case 0x2: // slt
               this.registers[rd] =
-                this.registers[rs1] < this.registers[rs2]
-                  ? BigInt(1)
-                  : BigInt(0);
+                this.registers[rs1] < this.registers[rs2] ? 1 : 0;
               break;
             case 0x3: // sltu
               this.registers[rd] =
-                this.registers[rs1] < this.registers[rs2]
-                  ? BigInt(1)
-                  : BigInt(0);
+                this.registers[rs1] < this.registers[rs2] ? 1 : 0;
               break;
             case 0x4: // xor
               this.registers[rd] = this.registers[rs1] ^ this.registers[rs2];
@@ -160,45 +160,43 @@ class riscv64gc {
           let imm = operands[3];
           switch (funct3) {
             case 0x0: // addi
-              this.registers[rd] = this.registers[rs1] + BigInt(imm);
+              this.registers[rd] = this.registers[rs1] + imm;
               break;
             case 0x1: // slli
-              this.registers[rd] = this.registers[rs1] << BigInt(imm);
+              this.registers[rd] = this.registers[rs1] << imm;
               break;
             case 0x2: // slti
-              this.registers[rd] =
-                this.registers[rs1] < BigInt(imm) ? BigInt(1) : BigInt(0);
+              this.registers[rd] = this.registers[rs1] < imm ? 1 : 0;
               break;
             case 0x3: // sltiu
-              this.registers[rd] =
-                this.registers[rs1] < BigInt(imm) ? BigInt(1) : BigInt(0);
+              this.registers[rd] = this.registers[rs1] < imm ? 1 : 0;
               break;
             case 0x4: // xori
-              this.registers[rd] = this.registers[rs1] ^ BigInt(imm);
+              this.registers[rd] = this.registers[rs1] ^ imm;
               break;
             case 0x5: // srli
-              this.registers[rd] = this.registers[rs1] >> BigInt(imm);
+              this.registers[rd] = this.registers[rs1] >> imm;
               break;
             case 0x6: // ori
-              this.registers[rd] = this.registers[rs1] | BigInt(imm);
+              this.registers[rd] = this.registers[rs1] | imm;
               break;
             case 0x7: // andi
-              this.registers[rd] = this.registers[rs1] & BigInt(imm);
+              this.registers[rd] = this.registers[rs1] & imm;
               break;
             case 0x18: // muli
-              this.registers[rd] = this.registers[rs1] * BigInt(imm);
+              this.registers[rd] = this.registers[rs1] * imm;
               break;
             case 0x19: // mulhi
-              this.registers[rd] = this.registers[rs1] * BigInt(imm);
+              this.registers[rd] = this.registers[rs1] * imm;
               break;
             case 0x1a: // mulhsui
-              this.registers[rd] = this.registers[rs1] * BigInt(imm);
+              this.registers[rd] = this.registers[rs1] * imm;
               break;
             case 0x1b: // mulhu
-              this.registers[rd] = this.registers[rs1] * BigInt(imm);
+              this.registers[rd] = this.registers[rs1] * imm;
               break;
             case 0x20: // subi
-              this.registers[rd] = this.registers[rs1] - BigInt(imm);
+              this.registers[rd] = this.registers[rs1] - imm;
               break;
             default:
               break;
@@ -211,6 +209,7 @@ class riscv64gc {
           imm = operands[3];
           switch (funct3) {
             case 0x0: // lb
+              this.registers[rd] = this.m.read(this.registers[rs1] + imm);
               break;
             case 0x1: // lh
               break;
@@ -219,8 +218,6 @@ class riscv64gc {
             case 0x4: // lbu
               break;
             case 0x5: // lhu
-              break;
-            case 0x6: // lwu
               break;
             default:
               break;
@@ -267,17 +264,17 @@ class riscv64gc {
         case 0x37: // U-type format
           rd = operands[0];
           imm = operands[1];
-          this.registers[rd] = BigInt(imm);
+          this.registers[rd] = imm;
           break;
         case 0x17: // U-type format
           rd = operands[0];
           imm = operands[1];
-          this.registers[rd] = BigInt(imm);
+          this.registers[rd] = imm;
           break;
         case 0x6f: // UJ-type format
           rd = operands[0];
           imm = operands[1];
-          this.registers[rd] = BigInt(imm);
+          this.registers[rd] = imm;
           break;
         default:
           break;

@@ -21,9 +21,10 @@
     <script>
         loadTypeScript('./riscv64gc.ts');
         loadTypeScript('./mem.ts');
+        loadTypeScript('./bus.ts');
         document.addEventListener('DOMContentLoaded', (event) => {
-            const cpu = new riscv64gc();
-            const memory = new mem();
+            const memory = new mem(1024 * 1024 * 512); // 512MB
+            const cpu = new riscv64gc(memory);
         });
     </script>
 </body>

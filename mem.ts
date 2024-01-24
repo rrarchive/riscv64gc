@@ -1,8 +1,8 @@
 export class mem {
-  private mem: Uint8Array;
+  private mem: number[];
 
-  constructor(size: number = 1024 * 1024 * 512) { // Default size: 512MB
-    this.mem = new Uint8Array(size);
+  constructor(size: number = 1024 * 1024 * 512) {
+    this.mem = new Array<number>(size).fill(0);
   }
 
   read(address: number): number {
@@ -10,6 +10,10 @@ export class mem {
   }
 
   write(address: number, value: number): void {
-    this.mem[address] = value;
+    if (value >= 0 && value <= 0xff) {
+      this.mem[address] = value;
+    } else {
+      throw new Error("Invalid value");
+    }
   }
 }
