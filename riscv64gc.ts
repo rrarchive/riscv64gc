@@ -1,6 +1,6 @@
 import { memory } from "./memory";
 
-class riscv64gc {
+export class riscv64gc {
   private registers: number[];
   private mem: memory;
 
@@ -97,8 +97,8 @@ class riscv64gc {
   }
 
   execute(executable: number[]): void {
-    for (let i = 0; i < executable.length; i += 4) {
-      let instruction = executable.slice(i, i + 4);
+    for (let pc = 0; pc < executable.length; pc += 4) {
+      let instruction = executable.slice(pc, pc + 4);
       let { opcode, operands } = this.decode(instruction);
       switch (opcode) {
         case 0x33: // R-type format
@@ -209,15 +209,25 @@ class riscv64gc {
           imm = operands[3];
           switch (funct3) {
             case 0x0: // lb
-              this.registers[rd] = this.mem.read(this.registers[rs1] + imm);
+              this.registers[rd] = this.mem.readByte(this.registers[rs1] + imm);
               break;
             case 0x1: // lh
+              this.registers[rd] = this.mem.readHalfWord(
+                this.registers[rs1] + imm
+              );
               break;
             case 0x2: // lw
+              this.registers[rd] = this.mem.readWord(this.registers[rs1] + imm);
               break;
             case 0x4: // lbu
+              this.registers[rd] = this.mem.readUnsignedByte(
+                this.registers[rs1] + imm
+              );
               break;
             case 0x5: // lhu
+              this.registers[rd] = this.mem.readUnsignedHalfWord(
+                this.registers[rs1] + imm
+              );
               break;
             default:
               break;
@@ -230,10 +240,22 @@ class riscv64gc {
           imm = operands[3];
           switch (funct3) {
             case 0x0: // sb
+              this.mem.writeByte(
+                this.registers[rs1] + imm,
+                this.registers[rs2]
+              );
               break;
             case 0x1: // sh
+              this.mem.writeHalfWord(
+                this.registers[rs1] + imm,
+                this.registers[rs2]
+              );
               break;
             case 0x2: // sw
+              this.mem.writeWord(
+                this.registers[rs1] + imm,
+                this.registers[rs2]
+              );
               break;
             default:
               break;
@@ -246,16 +268,34 @@ class riscv64gc {
           imm = operands[3];
           switch (funct3) {
             case 0x0: // beq
+              if (this.registers[rs1] === this.registers[rs2]) {
+                pc += imm << 2;
+              }
               break;
             case 0x1: // bne
+              if (this.registers[rs1] !== this.registers[rs2]) {
+                pc += imm << 2;
+              }
               break;
             case 0x4: // blt
+              if (this.registers[rs1] < this.registers[rs2]) {
+                pc += imm << 2;
+              }
               break;
             case 0x5: // bge
+              if (this.registers[rs1] >= this.registers[rs2]) {
+                pc += imm << 2;
+              }
               break;
             case 0x6: // bltu
+              if (this.registers[rs1] >>> 0 < this.registers[rs2] >>> 0) {
+                pc += imm << 2;
+              }
               break;
             case 0x7: // bgeu
+              if (this.registers[rs1] >>> 0 >= this.registers[rs2] >>> 0) {
+                pc += imm << 2;
+              }
               break;
             default:
               break;
