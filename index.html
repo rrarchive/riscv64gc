@@ -19,12 +19,8 @@
 <body>
     <h1>riscv64gc Emulator</h1>
     <script>
-        // Load your TypeScript files
         loadTypeScript('./riscv64gc.ts');
         loadTypeScript('./mem.ts');
-
-        // After the TypeScript files are loaded and compiled
-        // you can use your TypeScript code
         document.addEventListener('DOMContentLoaded', (event) => {
             const cpu = new riscv64gc();
             const memory = new mem();
