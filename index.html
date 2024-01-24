@@ -6,11 +6,11 @@
 <body>
     <h1>i486 Emulator</h1>
     <script type="module">
-        import CPU from './cpu.js';
-        import Memory from './memory.js';
-        
-        const cpu = new CPU();
-        const memory = new Memory();
+        import riscv64gc from './riscv64gc.js';
+        import mem from './mem.js';
+
+        const cpu = new riscv64gc();
+        const mem = new mem();
 
     </script>
 </body>
