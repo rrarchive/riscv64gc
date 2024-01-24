@@ -58,9 +58,24 @@ export class CPU {
     }
 
     execute(instruction) {
-        // Decode and execute the instruction
-        // This will involve checking the opcode, operands, modifying registers, flags, and memory
-        // Example: this.ax = this.bx + this.cx; if this is what the instruction dictates
-        // Update CPU state accordingly
+        // Decode the instruction's opcode and operands
+        const { opcode, operands } = this.decode(instruction);
+    
+        switch (opcode) {
+            case 'ADD':
+                // Example for an ADD instruction
+                break;
+            // Other cases for different opcodes go here
+            // ...
+            default:
+                console.error('Unknown opcode:', opcode);
+                break;
+        }
     }
+    
+    decode(instruction) {
+        // Implement the logic to decode the instruction into opcode and operands
+
+    }
+    
 }
