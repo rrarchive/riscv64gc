@@ -2,8 +2,6 @@ import { Memory } from './memory.js';
 
 export class CPU {
     constructor() {
-        this.memory = new Memory();
-
         // General-Purpose Registers
         this.ax = 0; // Accumulator Register
         this.bx = 0; // Base Register
@@ -53,12 +51,10 @@ export class CPU {
         this.cr1 = 0; // Reserved, not used in i486
         this.cr2 = 0;
         this.cr3 = 0;
-        this.cr4 = 0; // Introduced in later models
+        this.cr4 = 0;
 
         // Floating-Point Unit (FPU) Registers
         this.fpu = new Array(8).fill(0); // st0 to st7
-
-        // Initialize other CPU state aspects as needed
     }
 
     execute(instruction) {
@@ -67,6 +63,4 @@ export class CPU {
         // Example: this.ax = this.bx + this.cx; if this is what the instruction dictates
         // Update CPU state accordingly
     }
-
-    // Other methods for CPU operations
 }

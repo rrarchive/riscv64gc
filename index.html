@@ -6,9 +6,12 @@
 <body>
     <h1>i486 Emulator</h1>
     <script type="module">
-        // Example usage
+        import CPU from './cpu.js';
+        import Memory from './memory.js';
+        
         const cpu = new CPU();
-        cpu.execute(someBinaryInstruction);
+        const memory = new Memory();
+
     </script>
 </body>
 </html>
