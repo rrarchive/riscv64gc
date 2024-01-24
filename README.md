@@ -1,2 +1,2 @@
-# v486
-An i486 emulator
+# riscv64gc
+A riscv64gc emulator
